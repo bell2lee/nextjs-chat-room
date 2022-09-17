@@ -12,10 +12,38 @@ datasource db {
 
 
 model User {
-    id          Int     @default(autoincrement()) @id
-    username    String  @unique
-    name        String
-    password    String
-    description String?
-    online      Boolean @default(false)
+    id              Int     @default(autoincrement()) @id
+    username        String  @unique
+    name            String
+    password        String
+    description     String?
+    online          Boolean @default(false)
+    participations  ChatParticipation[]
+    chats           Chat[]
+}
+
+model ChatRoom {
+    id              Int     @default(autoincrement()) @id
+    participations  ChatParticipation[]
+    chats           Chat[]
+}
+
+model ChatParticipation {
+    id          Int         @default(autoincrement()) @id
+    createAt    DateTime    @default(now())
+    roomId      Int
+    userId      Int
+    room        ChatRoom    @relation(fields: [roomId], references: [id])
+    user        User        @relation(fields: [userId], references:[id])
+}
+
+model Chat {
+    id          Int         @default(autoincrement()) @id
+    createAt    DateTime    @default(now())
+    deleted     Boolean     @default(false)
+    message     String
+    roomId      Int
+    authorId    Int
+    room        ChatRoom    @relation(fields: [roomId], references: [id])
+    author      User      @relation(fields: [authorId], references:[id])
 }

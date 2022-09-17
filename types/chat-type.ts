@@ -1,3 +1,5 @@
+export type ChatRoomId = number;
+
 export type Chat = {
   id: string,
   lastDateTime: Date,

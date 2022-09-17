@@ -1,3 +1,4 @@
+export type UserId = number;
 export type Username = string;
 export type Name = string;
 export type Password = string;
