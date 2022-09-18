@@ -1,19 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  Description, Name, UserId, Username,
-} from '../types/user-type';
+import { PublicUserEntity, UserId } from '../types/user-type';
 
 const secret: string = process.env.API_SECRET_KEY!;
 
 export type Payload = {
-  rest: {
-    id: UserId,
-    username: Username,
-    name: Name,
-    description: Description,
-    online: boolean
-  },
+  rest: PublicUserEntity,
   iat: number,
   exp: number,
   sub: 'user',

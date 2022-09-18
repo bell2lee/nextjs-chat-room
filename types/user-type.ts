@@ -10,3 +10,15 @@ export type CreateUserParams = {
   password: Password,
   description?: Description,
 };
+
+export type PublicUserEntity = {
+  id: UserId,
+  username: Username,
+  name: Name,
+  description: Description,
+  online: boolean
+};
+
+export type CodeLabelUserEntity = PublicUserEntity & {
+  Password: Password,
+};
