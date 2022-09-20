@@ -1,25 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as userService from '../../server/services/user-service';
-
-type Data = {
-  id: number,
-  username: string,
-  name: string
-};
+import { tokenAuth } from '../../utils/token-util';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-    const { limit = 30, skip = 0, keyword = null } = req.query;
-    const users = await userService.getUsers({
-      limit: Number(limit),
-      skip: Number(skip),
-      keyword: String(keyword),
-    });
-    res.status(200).json(users);
+    const user = await tokenAuth(req, res);
+    if (user) {
+      const { limit = 30, skip = 0, keyword = null } = req.query;
+      const users = await userService.getUsers({
+        limit: Number(limit),
+        skip: Number(skip),
+        keyword: String(keyword),
+        loginUserId: user,
+      });
+      res.status(200).json(users);
+    }
   } else if (req.method === 'POST') {
     try {
       const { password, ...user } = await userService.createUser(req.body);

@@ -1,4 +1,4 @@
-import { ChangeEvent, PropsWithChildren, useState } from 'react';
+import { ChangeEvent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { BorderButton, Button, TextInput } from '../../styles/forms';
 import { set } from '../../utils/state-util';
@@ -12,12 +12,14 @@ export default function ChatRoomLayout({
   onSearchChange,
   onSearch,
   onLogout,
+  onNewMessage,
 }: PropsWithChildren<{
   chats: Chat[],
   searchKeyword: string,
   onSearchChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onSearch: () => void,
   onLogout: () => void,
+  onNewMessage: () => void,
 }>) {
   return (
     <Layout>
@@ -29,7 +31,7 @@ export default function ChatRoomLayout({
             {chats.filter((c) => Boolean(c.notRead)).length}
             )
           </h2>
-          <Button>새로운 메시지</Button>
+          <Button onClick={onNewMessage}>새로운 메시지</Button>
         </ChatRoomHeader>
 
         <SearchBox>

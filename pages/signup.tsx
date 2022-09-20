@@ -8,7 +8,7 @@ import * as userApi from '../apis/user-api';
 import {
   CreateUserParams, Password,
 } from '../types/user-type';
-import useToken from '../hooks/use-token';
+import useToken from '../hooks/useToken';
 
 type FieldName = 'username' | 'name' | 'password' | 'rePassword' | 'description';
 type UserFields = CreateUserParams & {

@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const { username, password } = req.body;
-
   try {
     const token = await userService.createToken({ username, password });
     res.status(201).json({

@@ -7,7 +7,7 @@ import {
 import { set } from '../utils/state-util';
 import * as userApi from '../apis/user-api';
 import { Password, Username } from '../types/user-type';
-import useToken from '../hooks/use-token';
+import useToken from '../hooks/useToken';
 
 export default function Home() {
   const { router, setCookie } = useToken();
