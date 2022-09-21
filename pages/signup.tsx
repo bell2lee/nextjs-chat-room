@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 import {
   Button, Fields, Form, FormLayout, Label, TextInput,
 } from '../styles/forms';
@@ -53,6 +54,9 @@ export default function Signup() {
 
   return (
     <FormLayout>
+      <Head>
+        <title>메신저 - 회원가입</title>
+      </Head>
       <Form>
         <Fields>
           <Label htmlFor="username">

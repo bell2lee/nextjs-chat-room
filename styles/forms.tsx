@@ -32,7 +32,9 @@ const Button = styled.button`
   }
 `;
 
-const BorderButton = styled(Button)`
+const BorderButton = styled(Button)<{
+  mobileOnly?: boolean,
+}>`
   background: #fff;
   color: #0038FF;
 
@@ -45,6 +47,12 @@ const BorderButton = styled(Button)`
     color: #032ed0;
     background: #fff;
   }
+  ${({ mobileOnly }) => (mobileOnly ? `
+    display:none;
+    @media only screen and (max-width: 768px) {
+      display:block;
+    }
+  ` : '')}
 `;
 
 const FormLayout = styled.section`

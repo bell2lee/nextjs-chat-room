@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 import ChatRoomLayout from '../../components/layouts/ChatRoomLayout';
 import { ChatRoom, ChatRoomId, ChatRoomProps } from '../../types/chat-type';
 import { set } from '../../utils/state-util';
@@ -41,7 +42,6 @@ export default function ChatRoomPage() {
     onCloseModal,
   } = useCreateRoom();
 
-  const { slug } = router.query;
   const [chats, setChats] = useState<ChatRoomProps[]>([]);
   const [selectChatRoom, setSelectChatRoom] = useState<ChatRoom | null>();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -107,6 +107,12 @@ export default function ChatRoomPage() {
       onLogout={() => removeCookie('chatToken')}
       onNewMessage={() => setIsOpen(true)}
     >
+      <Head>
+        <title>
+          {selectChatRoom ? selectChatRoom.participations.map((i) => i.user.name).join(', ') : '대화상대를 선택해주세요'}
+          - 메신저
+        </title>
+      </Head>
       {!router.query.slug && <div>대화 대상을 선택해주세요</div>}
       <Conversation
         chatRoom={selectChatRoom ?? null}

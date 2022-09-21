@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import { ChatRoomProps } from '../../types/chat-type';
 import ChatItem from './ChatItem';
 
-export default function ChatList({ chats }: PropsWithChildren<{
+export default function ChatList({ chats, setMenuOpen }: PropsWithChildren<{
   chats: ChatRoomProps[],
+  setMenuOpen: (isOpen: boolean) => void,
 }>) {
   const router = useRouter();
   return (
@@ -14,7 +15,10 @@ export default function ChatList({ chats }: PropsWithChildren<{
         <ChatItem
           chat={chat}
           key={`chatroom-${chat.id}`}
-          onClick={() => router.push(`/chats/${chat.id}`, `/chats/${chat.id}`)}
+          onClick={() => {
+            setMenuOpen(false);
+            router.push(`/chats/${chat.id}`, `/chats/${chat.id}`);
+          }}
         />
       ))}
       <div />

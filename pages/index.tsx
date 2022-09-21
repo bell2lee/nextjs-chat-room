@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import Head from 'next/head';
 import {
   BorderButton, Button, Fields, Form, FormLayout, Label, TextInput,
 } from '../styles/forms';
@@ -28,6 +29,9 @@ export default function Home() {
   };
   return (
     <FormLayout>
+      <Head>
+        <title>메신저 - 로그인</title>
+      </Head>
       <Form>
         <h1>안녕하세요. 메신저입니다.</h1>
 

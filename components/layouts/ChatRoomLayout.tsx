@@ -1,4 +1,4 @@
-import { ChangeEvent, PropsWithChildren } from 'react';
+import { ChangeEvent, PropsWithChildren, useState } from 'react';
 import styled from 'styled-components';
 import { BorderButton, Button, TextInput } from '../../styles/forms';
 import { ChatRoomProps } from '../../types/chat-type';
@@ -20,9 +20,10 @@ export default function ChatRoomLayout({
   onLogout: () => void,
   onNewMessage: () => void,
 }>) {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
   return (
     <Layout>
-      <Aside>
+      <Aside menuOpen={menuOpen}>
         <ChatRoomHeader>
           <h2>
             읽지 않은 대화
@@ -30,7 +31,15 @@ export default function ChatRoomLayout({
             {chats.filter((c) => Boolean(c.notRead)).length}
             )
           </h2>
-          <Button onClick={onNewMessage}>새로운 메시지</Button>
+          <div>
+            <Button onClick={onNewMessage}>새로운 메시지</Button>
+            <BorderButton
+              onClick={() => setMenuOpen(false)}
+              mobileOnly
+            >
+              닫기
+            </BorderButton>
+          </div>
         </ChatRoomHeader>
 
         <SearchBox>
@@ -42,11 +51,17 @@ export default function ChatRoomLayout({
           />
         </SearchBox>
         <div>
-          <ChatList chats={chats} />
+          <ChatList chats={chats} setMenuOpen={setMenuOpen} />
         </div>
       </Aside>
       <Content>
         <ContentHeader>
+          <BorderButton
+            onClick={() => setMenuOpen(true)}
+            mobileOnly
+          >
+            대화목록
+          </BorderButton>
           <BorderButton
             onClick={onLogout}
           >
@@ -66,15 +81,38 @@ const Layout = styled.div`
   margin:0 auto;
   height:100vh;
   display:flex;
+
+  @media only screen and (max-width: 1280px) {
+    width:100%;
+  }
+  @media only screen and (max-width: 768px) {
+    width:100%;
+  }
 `;
 
-const Aside = styled.aside`
+const Aside = styled.aside<{
+  menuOpen?: boolean,
+}>`
   width:360px;
   border-right:1px solid #ddd;
+
+
+  @media only screen and (max-width: 768px) {
+    z-index:99;
+    background:#fff;
+    top:0;
+    bottom:0;
+    width:100%;
+    position:absolute;
+    transition: .3s;
+    right:${({ menuOpen }) => (menuOpen ? '0%' : '100%')};
+  }
 `;
 
 const ContentHeader = styled.header`
   padding:14px;
+  display:flex;
+  justify-content: space-between;
 `;
 
 const ChatRoomHeader = styled.header`
@@ -86,6 +124,9 @@ const ChatRoomHeader = styled.header`
     font-size:18px;
     padding:0;
     margin:0;
+  }
+  >div {
+    display:flex;
   }
 `;
 
