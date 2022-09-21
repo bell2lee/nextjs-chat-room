@@ -11,7 +11,7 @@ export default async function ChatSocket(
     console.log('new Socket');
     const httpServer = res.socket.server as any;
     const io = new ServerIO(httpServer, {
-      path: '/api/rooms',
+      path: '/api/rooms/chats',
     });
     res.socket.server.io = io;
   }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import ChatRoomLayout from '../../components/layouts/ChatRoomLayout';
 import { ChatRoom, ChatRoomProps } from '../../types/chat-type';
 import { set } from '../../utils/state-util';
@@ -6,7 +7,7 @@ import Conversation from '../../components/Conversation';
 import useToken from '../../hooks/useToken';
 import useCreateRoom from '../../hooks/useCreateRoom';
 import CreateRoomModal from '../../components/CreateRoomModal';
-import { getChatRooms } from '../../apis/chat-api';
+import { getChatRoom, getChatRooms } from '../../apis/chat-api';
 
 export default function ChatRoomPage() {
   const {
@@ -68,8 +69,9 @@ export default function ChatRoomPage() {
         ...i,
         active: roomId === i.id,
       })));
-      // selectChatRoom(chats.find((i) => i.id === roomId)!);
-      console.log(roomId);
+      getChatRoom(roomId, cookies.chatToken)
+        .then((chatRoom) => setSelectChatRoom(chatRoom))
+        .catch(() => toast.error('대화를 가져오지 못했습니다.'));
     }
   }, [router.query.slug]);
 

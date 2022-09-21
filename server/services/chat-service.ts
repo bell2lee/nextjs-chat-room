@@ -1,5 +1,5 @@
 import { UserId } from '../../types/user-type';
-import { ChatRoomId } from '../../types/chat-type';
+import { ChatRoom, ChatRoomId } from '../../types/chat-type';
 import prisma from '../prisma';
 
 export async function createChatRoom(users: UserId[]) {
@@ -53,7 +53,7 @@ export async function getRooms({
   return rooms;
 }
 
-export async function getRoom(roomId: ChatRoomId) {
+export async function getRoom(roomId: ChatRoomId): Promise<ChatRoom | null> {
   const room = await prisma.chatRoom.findUnique({
     where: {
       id: roomId,
@@ -75,5 +75,21 @@ export async function getRoom(roomId: ChatRoomId) {
       },
     },
   });
-  return room;
+  return room as unknown as ChatRoom ?? null;
+}
+
+export async function createChatMessage({
+  message,
+  roomId,
+}: {
+  message: string,
+  roomId: number,
+}, userId: UserId): Promise<void> {
+  await prisma.chat.create({
+    data: {
+      message,
+      roomId,
+      authorId: userId,
+    },
+  });
 }

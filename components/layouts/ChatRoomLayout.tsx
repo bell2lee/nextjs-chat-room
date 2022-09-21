@@ -91,6 +91,7 @@ const ChatRoomHeader = styled.header`
 
 const Content = styled.main`
   flex:1;
+  position:relative;
 `;
 
 const SearchBox = styled.div`
