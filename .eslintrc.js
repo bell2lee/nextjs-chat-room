@@ -19,5 +19,6 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": 0,
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }], //should add ".ts" if typescript project
     'jsx-a11y/label-has-associated-control': 0,
+    'react/jsx-props-no-spreading': 'off',
   },
 };

@@ -7,7 +7,8 @@ import { CookiesProvider } from 'react-cookie';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CookiesProvider>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <Component {...pageProps} />
       <ToastContainer
         pauseOnFocusLoss={false}

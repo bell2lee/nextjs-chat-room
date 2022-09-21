@@ -13,7 +13,8 @@ class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () => originalRenderPage({
-        // eslint-disable-next-line react/jsx-props-no-spreading
+        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+        /* @ts-ignore */
         enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
       });
 

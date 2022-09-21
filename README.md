@@ -24,7 +24,22 @@
 
 ## Getting Started
 
-First, run the development server:
+### create .env file
+```dotenv
+DATABASE_URL="mysql://id:pw@127.0.0.1:3306/dbname"
+API_SECRET_KEY="secretkey"
+
+```
+
+### install package
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### run for dev
 
 ```bash
 npm run dev
