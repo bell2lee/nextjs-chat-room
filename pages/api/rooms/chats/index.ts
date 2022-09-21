@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       message: String(message),
       roomId: Number(roomId),
     }, user);
-    res.socket.server.io.emit('message', message);
+    res.socket.server.io.emit('roomId', roomId);
     res.status(201).json(message);
   }
 };

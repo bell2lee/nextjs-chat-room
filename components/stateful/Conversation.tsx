@@ -1,31 +1,35 @@
 import styled from 'styled-components';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { connect } from 'socket.io-client';
-import { ChatRoom } from '../types/chat-type';
-import { Button, TextInput } from '../styles/forms';
-import { sendMessage } from '../apis/chat-api';
-import useToken from '../hooks/useToken';
-import { set } from '../utils/state-util';
+import { ChatRoom, ChatRoomId } from '../../types/chat-type';
+import { Button, TextInput } from '../../styles/forms';
+import { sendMessage } from '../../apis/chat-api';
+import useToken from '../../hooks/useToken';
+import { set } from '../../utils/state-util';
 
 export default function Conversation({
   chatRoom,
+  onChangeRoom,
 }: PropsWithChildren<{
   chatRoom: ChatRoom,
+  onChangeRoom: (id: ChatRoomId) => void,
 }>) {
   const { cookies } = useToken();
   const [connected, setConnected] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const targetText = chatRoom.participations.map((i) => i.user.name).join(', ');
 
-  const onSendMessage = () => {
-    sendMessage({
-      message,
-      roomId: chatRoom.id,
-    }, cookies.chatToken);
+  const onSendMessage = async () => {
+    if (message) {
+      await sendMessage({
+        message,
+        roomId: chatRoom.id,
+      }, cookies.chatToken);
+      setMessage('');
+    }
   };
 
   useEffect(() => {
-    console.log('next', process.env.NEXT_PUBLIC_API_URL);
     const socket = connect('', {
       path: '/api/rooms/chats/socket',
     });
@@ -34,10 +38,11 @@ export default function Conversation({
       setConnected(true);
     });
 
-    // socket.on("message", () => {
-    //   chat.push(message);
-    //   setChat([...chat]);
-    // });
+    socket.on('roomId', (roomId) => {
+      if (roomId) {
+        onChangeRoom(roomId);
+      }
+    });
     return () => {
       if (socket) {
         socket.disconnect();
@@ -66,6 +71,7 @@ export default function Conversation({
           placeholder="메시지를 입력하세요"
           value={message}
           onChange={(e) => set(e, setMessage)}
+          onKeyDown={(e) => e.code === 'Enter' && onSendMessage()}
         />
         <Button
           onClick={onSendMessage}

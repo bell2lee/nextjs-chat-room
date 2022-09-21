@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ChatRoomLayout from '../../components/layouts/ChatRoomLayout';
-import { ChatRoom, ChatRoomProps } from '../../types/chat-type';
+import { ChatRoom, ChatRoomId, ChatRoomProps } from '../../types/chat-type';
 import { set } from '../../utils/state-util';
-import Conversation from '../../components/Conversation';
+import Conversation from '../../components/stateful/Conversation';
 import useToken from '../../hooks/useToken';
 import useCreateRoom from '../../hooks/useCreateRoom';
 import CreateRoomModal from '../../components/CreateRoomModal';
 import { getChatRoom, getChatRooms } from '../../apis/chat-api';
+
+const roomToRoomProps = (room: ChatRoom) => ({
+  id: room.id,
+  name: room.participations.map((i) => i.user.name).join(', '),
+  description: '마지막 메시지',
+  lastDateTime: new Date(),
+  active: false,
+  thumbnail: 'https://images.unsplash.com/photo-1662581871625-7dbd3ac1ca18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80',
+  notRead: 1,
+});
 
 export default function ChatRoomPage() {
   const {
@@ -36,20 +46,21 @@ export default function ChatRoomPage() {
 
   const updateChatRoom = () => {
     getChatRooms(cookies.chatToken).then((chatRooms) => {
-      setChats(chatRooms.map((room) => ({
-        id: room.id,
-        name: room.participations.map((i) => i.user.name).join(', '),
-        description: '마지막 메시지',
-        lastDateTime: new Date(),
-        active: false,
-        thumbnail: 'https://images.unsplash.com/photo-1662581871625-7dbd3ac1ca18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80',
-        notRead: 1,
-      })));
+      setChats(chatRooms.map(roomToRoomProps));
     });
   };
+  const updateSelectChatRoom = (roomId: ChatRoomId) => getChatRoom(roomId, cookies.chatToken)
+    .then((chatRoom) => setSelectChatRoom(chatRoom))
+    .catch(() => toast.error('대화를 가져오지 못했습니다.'));
 
   const onSearch = () => {
     console.log(searchKeyword);
+  };
+
+  const onChangeRoom = (id: ChatRoomId) => {
+    if (selectChatRoom?.id === id) {
+      updateSelectChatRoom(id);
+    }
   };
 
   useEffect(() => {
@@ -69,9 +80,7 @@ export default function ChatRoomPage() {
         ...i,
         active: roomId === i.id,
       })));
-      getChatRoom(roomId, cookies.chatToken)
-        .then((chatRoom) => setSelectChatRoom(chatRoom))
-        .catch(() => toast.error('대화를 가져오지 못했습니다.'));
+      updateSelectChatRoom(roomId);
     }
   }, [router.query.slug]);
 
@@ -88,6 +97,7 @@ export default function ChatRoomPage() {
       {selectChatRoom && (
       <Conversation
         chatRoom={selectChatRoom}
+        onChangeRoom={onChangeRoom}
       />
       )}
 
