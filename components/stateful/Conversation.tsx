@@ -15,7 +15,7 @@ export default function Conversation({
   onChangeRoom: (id: ChatRoomId) => void,
 }>) {
   const { cookies } = useToken();
-  const [connected, setConnected] = useState<boolean>(false);
+  const [, setConnected] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const targetText = chatRoom.participations.map((i) => i.user.name).join(', ');
 
@@ -71,7 +71,7 @@ export default function Conversation({
           placeholder="메시지를 입력하세요"
           value={message}
           onChange={(e) => set(e, setMessage)}
-          onKeyDown={(e) => e.code === 'Enter' && onSendMessage()}
+          onKeyPress={(e) => e.code === 'Enter' && onSendMessage()}
         />
         <Button
           onClick={onSendMessage}

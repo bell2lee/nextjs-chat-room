@@ -12,7 +12,9 @@ import { getChatRoom, getChatRooms } from '../../apis/chat-api';
 const roomToRoomProps = (room: ChatRoom) => ({
   id: room.id,
   name: room.participations.map((i) => i.user.name).join(', '),
-  description: '마지막 메시지',
+  description: room.chats.length
+    ? room.chats[room.chats.length - 1].message
+    : '마지막 메시지가 없습니다.',
   lastDateTime: new Date(),
   active: false,
   thumbnail: 'https://images.unsplash.com/photo-1662581871625-7dbd3ac1ca18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80',
@@ -50,7 +52,10 @@ export default function ChatRoomPage() {
     });
   };
   const updateSelectChatRoom = (roomId: ChatRoomId) => getChatRoom(roomId, cookies.chatToken)
-    .then((chatRoom) => setSelectChatRoom(chatRoom))
+    .then((chatRoom) => {
+      setSelectChatRoom(chatRoom);
+      return chatRoom;
+    })
     .catch(() => toast.error('대화를 가져오지 못했습니다.'));
 
   const onSearch = () => {
@@ -58,6 +63,10 @@ export default function ChatRoomPage() {
   };
 
   const onChangeRoom = (id: ChatRoomId) => {
+    const updateTargetIndex = chats.findIndex((i) => i.id === id);
+    if (updateTargetIndex >= 0) {
+      updateChatRoom();
+    }
     if (selectChatRoom?.id === id) {
       updateSelectChatRoom(id);
     }
