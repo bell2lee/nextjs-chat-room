@@ -42,7 +42,7 @@ model Chat {
     id          Int         @default(autoincrement()) @id
     createAt    DateTime    @default(now())
     deleted     Boolean     @default(false)
-    message     String
+    message     String      @db.VarChar(2500)
     roomId      Int
     authorId    Int
     room        ChatRoom    @relation(fields: [roomId], references: [id])

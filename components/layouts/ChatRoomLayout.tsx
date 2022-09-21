@@ -37,7 +37,7 @@ export default function ChatRoomLayout({
           <TextInput
             placeholder="대화 검색하기"
             onChange={onSearchChange}
-            onKeyDown={(e) => e.code === 'Enter' && onSearch()}
+            onKeyPress={(e) => e.code === 'Enter' && onSearch()}
             value={searchKeyword}
           />
         </SearchBox>

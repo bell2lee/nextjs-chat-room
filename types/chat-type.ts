@@ -20,6 +20,7 @@ export type Chat = {
   createAt: string,
   deleted: boolean,
   message: string,
+  author?: PublicUserEntity,
 };
 
 export type ChatRoom = {

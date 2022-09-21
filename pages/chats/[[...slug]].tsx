@@ -47,7 +47,12 @@ export default function ChatRoomPage() {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const updateChatRoom = () => {
-    getChatRooms(cookies.chatToken).then((chatRooms) => {
+    // TODO : 페이지네이션이 가능하도록 변경
+    getChatRooms({
+      limit: 100,
+      skip: 0,
+      keyword: searchKeyword,
+    }, cookies.chatToken).then((chatRooms) => {
       setChats(chatRooms.map(roomToRoomProps));
     });
   };
@@ -59,7 +64,7 @@ export default function ChatRoomPage() {
     .catch(() => toast.error('대화를 가져오지 못했습니다.'));
 
   const onSearch = () => {
-    console.log(searchKeyword);
+    updateChatRoom();
   };
 
   const onChangeRoom = (id: ChatRoomId) => {
@@ -89,7 +94,7 @@ export default function ChatRoomPage() {
         ...i,
         active: roomId === i.id,
       })));
-      updateSelectChatRoom(roomId);
+      updateSelectChatRoom(roomId).catch();
     }
   }, [router.query.slug]);
 
@@ -102,13 +107,11 @@ export default function ChatRoomPage() {
       onLogout={() => removeCookie('chatToken')}
       onNewMessage={() => setIsOpen(true)}
     >
-      {!slug && <div>대화 대상을 선택해주세요</div>}
-      {selectChatRoom && (
+      {!router.query.slug && <div>대화 대상을 선택해주세요</div>}
       <Conversation
-        chatRoom={selectChatRoom}
+        chatRoom={selectChatRoom ?? null}
         onChangeRoom={onChangeRoom}
       />
-      )}
 
       <CreateRoomModal
         createRoom={() => createRoom(updateChatRoom)}

@@ -48,6 +48,7 @@ const Summary = styled.div`
   display:flex;
   flex-direction: column;
   gap:6px;
+  width:70%;
 `;
 
 const Thumbnail = styled.div<{ url: string }>`
@@ -77,5 +78,8 @@ const Dot = styled.div`
 `;
 
 const Description = styled.div`
-  
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  word-wrap:break-word;
 `;

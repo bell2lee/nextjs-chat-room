@@ -14,7 +14,7 @@ export default function ChatList({ chats }: PropsWithChildren<{
         <ChatItem
           chat={chat}
           key={`chatroom-${chat.id}`}
-          onClick={() => router.push(`/chats/${chat.id}`)}
+          onClick={() => router.push(`/chats/${chat.id}`, `/chats/${chat.id}`)}
         />
       ))}
       <div />

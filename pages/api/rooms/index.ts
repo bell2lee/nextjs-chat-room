@@ -14,8 +14,8 @@ export default async function handler(
     } else if (req.method === 'GET') {
       const { limit = 30, skip = 0, keyword = null } = req.query;
       const rooms = await chatService.getRooms({
-        limit: Number(limit), skip: Number(skip), keyword: Number(keyword),
-      });
+        limit: Number(limit), skip: Number(skip), keyword: String(keyword),
+      }, user);
       res.status(200).json(rooms);
     }
   }

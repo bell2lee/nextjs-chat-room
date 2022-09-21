@@ -27,11 +27,31 @@ export async function getRooms({
 }: {
   limit: number,
   skip: number,
-  keyword?: number | null,
-}) {
+  keyword?: string | null,
+}, loginUserId: UserId) {
   const rooms = await prisma.chatRoom.findMany({
     skip,
     take: limit,
+    where: {
+      participations: {
+        some: {
+          AND: [
+            {
+              userId: loginUserId,
+            },
+            {
+              user: {
+                ...keyword ? {
+                  name: {
+                    endsWith: keyword,
+                  },
+                } : {},
+              },
+            },
+          ],
+        },
+      },
+    },
     include: {
       chats: true,
       participations: {
@@ -54,23 +74,28 @@ export async function getRooms({
 }
 
 export async function getRoom(roomId: ChatRoomId): Promise<ChatRoom | null> {
+  const userSelect = {
+    select: {
+      id: true,
+      username: true,
+      name: true,
+      description: true,
+      online: true,
+    },
+  };
   const room = await prisma.chatRoom.findUnique({
     where: {
       id: roomId,
     },
     include: {
-      chats: true,
+      chats: {
+        include: {
+          author: userSelect,
+        },
+      },
       participations: {
         include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              name: true,
-              description: true,
-              online: true,
-            },
-          },
+          user: userSelect,
         },
       },
     },

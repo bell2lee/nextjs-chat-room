@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { UserId } from '../types/user-type';
 import { ChatRoom, ChatRoomId } from '../types/chat-type';
+import { PaginationParams } from '../types/common-type';
 
 export async function createChatRoom(target: UserId[], token: string) {
   await axios.post('/api/rooms', {
@@ -12,11 +13,12 @@ export async function createChatRoom(target: UserId[], token: string) {
   });
 }
 
-export async function getChatRooms(token: string): Promise<ChatRoom[]> {
+export async function getChatRooms(args: PaginationParams, token: string): Promise<ChatRoom[]> {
   const res = await axios.get('/api/rooms', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    params: args,
   });
 
   return res.data;
