@@ -1,8 +1,7 @@
 import { ChangeEvent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { BorderButton, Button, TextInput } from '../../styles/forms';
-import { set } from '../../utils/state-util';
-import { Chat } from '../../types/chat-type';
+import { ChatRoomProps } from '../../types/chat-type';
 import ChatList from './ChatList';
 
 export default function ChatRoomLayout({
@@ -14,7 +13,7 @@ export default function ChatRoomLayout({
   onLogout,
   onNewMessage,
 }: PropsWithChildren<{
-  chats: Chat[],
+  chats: ChatRoomProps[],
   searchKeyword: string,
   onSearchChange: (e: ChangeEvent<HTMLInputElement>) => void,
   onSearch: () => void,

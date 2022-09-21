@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { Chat } from '../../types/chat-type';
+import { ChatRoomProps } from '../../types/chat-type';
 import ChatItem from './ChatItem';
 
 export default function ChatList({ chats }: PropsWithChildren<{
-  chats: Chat[],
+  chats: ChatRoomProps[],
 }>) {
   const router = useRouter();
   return (

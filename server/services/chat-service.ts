@@ -52,3 +52,28 @@ export async function getRooms({
 
   return rooms;
 }
+
+export async function getRoom(roomId: ChatRoomId) {
+  const room = await prisma.chatRoom.findUnique({
+    where: {
+      id: roomId,
+    },
+    include: {
+      chats: true,
+      participations: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              name: true,
+              description: true,
+              online: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return room;
+}

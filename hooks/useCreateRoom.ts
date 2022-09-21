@@ -37,14 +37,19 @@ export default function useCreateRoom() {
     setIsOpen(false);
   };
 
-  const createRoom = async () => {
+  const createRoom = async (callback?: () => void) => {
     const promise = createChatRoom(selectUsers.map((i) => i.id), cookies.chatToken);
     await toast.promise(promise, {
       pending: '채팅방을 만드는 중입니다.',
       error: '채팅방 생성 실패',
-      success: '채팅방을 만들었어요.',
+      success: {
+        render() {
+          if (callback) callback();
+          onCloseModal();
+          return '채팅방을 만들었어요.';
+        },
+      },
     });
-    onCloseModal();
   };
 
   return {

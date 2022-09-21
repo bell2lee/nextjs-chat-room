@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { Chat } from '../../types/chat-type';
+import { ChatRoomProps } from '../../types/chat-type';
 
 export default function ChatItem({ chat, onClick }: PropsWithChildren<{
-  chat: Chat,
+  chat: ChatRoomProps,
   onClick: () => void,
 }>) {
   return (
