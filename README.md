@@ -10,14 +10,15 @@
 - [x] Github, Bitbucket 등 접속 가능한 Git Remote Repository로 전달 바랍니다.
 
 # Optional
-- [ ] Next.js로 SSR을 구현해주세요. (SEO 고려 등)
+- [x] Next.js로 SSR을 구현해주세요. (SEO 고려 등)
+  - 각 페이지 타이블 변경
 - [x] Responsive를 지원합니다.
 - [x] 로그인, 로그아웃을 할 수 있습니다.
 - [x] 비 로그인 사용자 앱 실행 시 로그인을 유도 합니다.
 - [x] 새로운 메시지 버튼 클릭 후 새 대화방 생성 시 대화 상대 검색이 가능합니다.
 - [x] 대화에 URL이 있는 경우 Clickable하게(실제로 동작) 출력합니다.
 - [ ] 읽지 않은 메시지가 있는 경우 화면상 표기를 다르게 합니다.
-- [ ] Production 환경을 구축하여 동작 가능한 임의의 URL로 접속 할 수 있습니다.
+- [x] Production 환경을 구축하여 동작 가능한 임의의 URL로 접속 할 수 있습니다.
 
 
 

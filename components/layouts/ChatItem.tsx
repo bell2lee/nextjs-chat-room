@@ -13,7 +13,7 @@ export default function ChatItem({ chat, onClick }: PropsWithChildren<{
         <Header>
           <Name>
             {chat.name}
-            {Boolean(chat.notRead) && `(${chat.notRead})`}
+            {/* {Boolean(chat.notRead) && `(${chat.notRead})`} */}
           </Name>
           <Dot />
           <div>{chat.lastDateTime.toDateString()}</div>
