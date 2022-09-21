@@ -55,6 +55,17 @@ const FormLayout = styled.section`
   border:1px solid #ddd;
   padding:32px;
   border-radius:32px;
+
+  @media only screen and (max-width: 1024px) {
+    width:100%;
+  }
+
+
+  @media only screen and (max-width: 768px) {
+    margin-top:0;
+    margin-bottom:0;
+    height:100vh;
+  }
 `;
 
 const Form = styled.div`
@@ -66,6 +77,11 @@ const Form = styled.div`
   justify-content: center;
   flex-direction: column;
   gap:12px;
+
+
+  @media only screen and (max-width: calc(360px + 32px + 32px)) {
+    width:100%;
+  }
 `;
 
 const Label = styled.label`
